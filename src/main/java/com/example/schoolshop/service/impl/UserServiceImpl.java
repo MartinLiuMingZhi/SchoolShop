@@ -115,7 +115,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         long userId = currentUser.getId();
         currentUser = this.baseMapper.selectById(userId);
         if (currentUser == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
         return currentUser;
     }
