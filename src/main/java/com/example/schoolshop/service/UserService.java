@@ -3,29 +3,35 @@ package com.example.schoolshop.service;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.schoolshop.domain.User;
+import com.example.schoolshop.model.user.LoginResponse;
 import com.example.schoolshop.model.user.RegisterResponse;
+
+import java.util.Date;
 
 /**
  * <p>
  *  用户服务类
  * </p>
  *
- * @author laterya
+ * @author martin liu  & sq
  */
 public interface UserService extends IService<User> {
     /**
      * 用户注册
      *
-     * @param userName 用户昵称
-     * @param userPassword 用户密码
-     * @param checkPassword 确认密码
+     * @param username 用户昵称
+     * @param password 用户密码
+     * @param name     姓名
+     * @param sex      性别
+     * @param email    邮箱
+     * @param phone    电话号码
+     * @param birthay  出生日期
      * @return 用户id
      */
-    RegisterResponse userRegister(String userName, String userPassword, String checkPassword);
+    RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone, Date birthay);
 
-    SaTokenInfo userLogin(String userAccount, String userPassword);
+    LoginResponse userLogin(String username, String password);
 
-    User getLoginUser();
 
 
 }

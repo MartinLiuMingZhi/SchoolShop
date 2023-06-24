@@ -12,7 +12,6 @@ create table if not exists user
     sex         varchar(256)            null comment '性别',
     email       varchar(256)            not null comment '邮箱',
     phone       varchar(256)            null comment '电话号码',
-    birthday    date                    not null comment '生日',
-    state       int                     not null comment '状态码',
-    code        varchar(256)            null comment '验证码'
+    birthday    date                    not null comment '出生日期',
+    state       int                     not null comment '状态码'
 ) comment '用户' collate = utf8mb4_unicode_ci;

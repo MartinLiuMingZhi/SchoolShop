@@ -56,7 +56,7 @@ public class User implements Serializable {
     private String phone;
 
     /**
-     * 生日
+     * 出生日期
      */
     @TableField(value = "birthday")
     private Date birthday;
@@ -67,9 +67,5 @@ public class User implements Serializable {
     @TableField(value = "state")
     private Integer state;
 
-    /**
-     * 验证码
-     */
-    @TableField(value = "code")
-    private String code;
+
 }

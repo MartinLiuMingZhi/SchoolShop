@@ -15,8 +15,7 @@ public class UserVo {
     private String sex;         //性别
     private String email;       //邮件
     private String phone;       //电话号码
-    private Date birthday;      //生日
+    private Date birthday;      //出生日期
     private Integer state;      //状态码
-    private String code;        //验证码
 
 }

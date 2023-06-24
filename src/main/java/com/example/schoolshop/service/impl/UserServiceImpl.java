@@ -11,6 +11,7 @@ import com.example.schoolshop.constant.UserConstant;
 import com.example.schoolshop.domain.User;
 import com.example.schoolshop.exception.BusinessException;
 import com.example.schoolshop.mappar.UserMapper;
+import com.example.schoolshop.model.user.LoginResponse;
 import com.example.schoolshop.model.user.RegisterResponse;
 import com.example.schoolshop.service.UserService;
 import jakarta.annotation.Resource;
@@ -20,6 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 
 
 /**
@@ -34,91 +36,47 @@ import java.util.Collection;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         implements UserService {
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public RegisterResponse userRegister(String userName, String userPassword, String checkPassword) {
-        // 1. 校验参数
-        if (StringUtils.isAnyBlank(userName, userPassword, checkPassword)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
-        }
-        if (!userPassword.equals(checkPassword)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "两次输入的密码不一致");
-        }
-        if (userPassword.length() < UserConstant.USER_PASSWORD_MIN_LENGTH) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码过短");
-        }
+    public LoginResponse userLogin(String userName, String userPassword) {
 
-        // 2.分配随机Account
-        String userAccount = RandomUtil.randomNumbers(UserConstant.USER_ACCOUNT_LENGTH);
-
-        // 3.保存用户
-        synchronized (userAccount.intern()) {
-            // 3.1 加密
-            String encryptPassword = DigestUtil.md5Hex((UserConstant.SALT_VALUE + userPassword).getBytes());
-            // 3.2 保存
-            User user = new User();
-            user.setUsername(userAccount);
-            boolean saveResult = this.save(user);
-            if (!saveResult) {
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
-            }
-            RegisterResponse userRegisterResponse = new RegisterResponse();
-            userRegisterResponse.setId(user.getId());
-            userRegisterResponse.setUserAccount(userAccount);
-            return userRegisterResponse;
-        }
-    }
-
-    @Override
-    public SaTokenInfo userLogin(String userAccount, String userPassword) {
-        // 1. 校验参数
-        if (StringUtils.isAnyBlank(userAccount, userPassword)) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
-        }
-        if (userAccount.length() != UserConstant.USER_ACCOUNT_LENGTH) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号错误");
-        }
-        if (userPassword.length() < UserConstant.USER_PASSWORD_MIN_LENGTH) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码错误");
-        }
 
         // 2. 加密
-        String encryptPassword = DigestUtil.md5Hex((UserConstant.SALT_VALUE + userPassword).getBytes());
+//        String encryptPassword = DigestUtil.md5Hex((UserConstant.SALT_VALUE + userPassword).getBytes());
 
         // 3. 查询
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", userAccount);
-        queryWrapper.eq("password", encryptPassword);
+        queryWrapper.eq("username", userName);
+        queryWrapper.eq("password", userPassword);
         User user = this.baseMapper.selectOne(queryWrapper);
         if (user == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或账号密码错误");
         }
-
-        // 4. 保存session
-        StpUtil.login(user.getId());
-        StpUtil.getSession().set(UserConstant.USER_LOGIN_STATE, user);
-        return StpUtil.getTokenInfo();
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setUsername(user.getUsername());
+        loginResponse.setId(user.getId());
+        return loginResponse;
     }
 
     @Override
-    public User getLoginUser() {
-        // 1. 获取session中的信息
-        StpUtil.checkLogin();
-        Object userObject = StpUtil.getSession().get(UserConstant.USER_LOGIN_STATE);
-        User currentUser = (User) userObject;
-        if (currentUser == null || currentUser.getId() == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+    public RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone, Date birthay) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setName(name);
+        user.setSex(sex);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setBirthday(birthay);
+        user.setState(1);
+        boolean saveResult = this.save(user);
+        if (!saveResult) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
         }
-        // 2. 用id从数据库查找用户信息，session因为网络等原因可能篡改
-        long userId = currentUser.getId();
-        currentUser = this.baseMapper.selectById(userId);
-        if (currentUser == null) {
-        }
-        return currentUser;
+        RegisterResponse registerResponse = new RegisterResponse();
+        registerResponse.setUsername(username);
+        return registerResponse;
     }
-
 }
 
 

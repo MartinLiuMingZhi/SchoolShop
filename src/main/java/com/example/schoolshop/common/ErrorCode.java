@@ -1,13 +1,13 @@
 package com.example.schoolshop.common;
 
 /**
- * @Author laterya
+ * @Author martin liu & sq
  * @Date 2021/3/8 0:08
  * @Description 异常错误码
  */
 public enum ErrorCode {
 
-    SUCCESS(0, "ok"),
+    SUCCESS(200, "success"),
     PARAMS_ERROR(40000, "请求参数错误"),
     NOT_LOGIN_ERROR(40100, "未登录"),
     NO_AUTH_ERROR(40101, "无权限"),
