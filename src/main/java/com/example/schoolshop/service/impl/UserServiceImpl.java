@@ -77,6 +77,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         registerResponse.setUsername(username);
         return registerResponse;
     }
+
 }
 
 
