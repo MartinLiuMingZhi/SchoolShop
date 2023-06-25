@@ -53,13 +53,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或账号密码错误");
         }
         LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setUsername(user.getUsername());
+//        loginResponse.setUsername(user.getUsername());
         loginResponse.setId(user.getId());
         return loginResponse;
     }
 
     @Override
+    public User getLoginUser(Long id) {
+        User user = this.baseMapper.selectById(id);
+        if (user == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        return user;
+    }
+
+    @Override
     public RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone, Date birthay) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        if (this.baseMapper.selectOne(queryWrapper) !=  null){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账号已存在");
+        }
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
@@ -68,13 +82,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setEmail(email);
         user.setPhone(phone);
         user.setBirthday(birthay);
-        user.setState(1);
+        user.setState(0);
         boolean saveResult = this.save(user);
         if (!saveResult) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
         }
         RegisterResponse registerResponse = new RegisterResponse();
-        registerResponse.setUsername(username);
+        registerResponse.setId(user.getId());
         return registerResponse;
     }
 

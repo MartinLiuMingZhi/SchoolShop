@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @TableName(value = "cart")
 @Data
-public class cart implements Serializable {
+public class Cart implements Serializable {
 
     /**
      * cart_id

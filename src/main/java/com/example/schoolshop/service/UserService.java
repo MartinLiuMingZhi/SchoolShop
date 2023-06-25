@@ -32,6 +32,6 @@ public interface UserService extends IService<User> {
 
     LoginResponse userLogin(String username, String password);
 
-
+    User getLoginUser(Long id);
 
 }

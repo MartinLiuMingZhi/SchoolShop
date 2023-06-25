@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @TableName(value = "product")
 @Data
-public class product implements Serializable {
+public class Product implements Serializable {
     /**
      * id
      */

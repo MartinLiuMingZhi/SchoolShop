@@ -3,6 +3,7 @@ package com.example.schoolshop.controller;
 import com.example.schoolshop.common.BaseResponse;
 import com.example.schoolshop.common.ErrorCode;
 import com.example.schoolshop.common.ResultUtils;
+import com.example.schoolshop.domain.User;
 import com.example.schoolshop.exception.BusinessException;
 import com.example.schoolshop.model.user.LoginRequest;
 import com.example.schoolshop.model.user.LoginResponse;
@@ -12,10 +13,7 @@ import com.example.schoolshop.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -26,7 +24,9 @@ import java.util.Date;
 public class UserController {
     @Resource
     private UserService userService;
-    //登录
+    /*
+    登录
+     */
     @PostMapping("/login")
     public BaseResponse<LoginResponse> userLogin(@RequestBody LoginRequest loginRequest) {
         if (loginRequest == null) {
@@ -43,6 +43,9 @@ public class UserController {
         return ResultUtils.success(result);
     }
 
+    /*
+    注册
+     */
     @PostMapping("/register")
     public BaseResponse<RegisterResponse> userRegister(@RequestBody RegisterRequest registerRequest) {
         if (registerRequest == null) {
@@ -63,5 +66,14 @@ public class UserController {
 
         RegisterResponse userRegisterResponse = userService.userRegister(username,password,name,sex,email,phone,birthday);
         return ResultUtils.success(userRegisterResponse);
+    }
+
+    /*
+    获取账号信息
+     */
+    @GetMapping("/getUser")
+    public BaseResponse<User> getLoginUser(Long id){
+        User user = userService.getLoginUser(id);
+        return ResultUtils.success(user);
     }
 }

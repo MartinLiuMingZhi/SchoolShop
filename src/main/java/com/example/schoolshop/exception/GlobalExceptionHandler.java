@@ -1,6 +1,5 @@
 package com.example.schoolshop.exception;
 
-import com.example.schoolshop.common.BaseResponse;
 import com.example.schoolshop.common.ErrorCode;
 import com.example.schoolshop.common.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
