@@ -3,6 +3,7 @@ package com.example.schoolshop.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.schoolshop.domain.Product;
 import com.example.schoolshop.model.product.AddProductResponse;
+import com.example.schoolshop.model.product.DeleteProductResponse;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,19 @@ public interface ProductService extends IService<Product> {
 
     List<Product> page(Integer start,Integer pageSize);
 
+    /**
+     *
+     * @param name
+     * @param description
+     * @param price
+     * @param image
+     * @param type
+     * @param stock
+     * @return
+     */
     AddProductResponse addProduct(String name, String description, Double price, String image, String type, Long stock);
+
+    DeleteProductResponse deleteProduct(List<Integer> id);
 
 
 }

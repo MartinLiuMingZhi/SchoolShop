@@ -61,7 +61,8 @@ public class ProductController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public BaseResponse<DeleteProductResponse> add(@PathVariable List<Integer> id){
-        return ResultUtils.success(null);
+    public BaseResponse<DeleteProductResponse> delete(@PathVariable List<Integer> id){
+        DeleteProductResponse deleteProductResponse = productService.deleteProduct(id);
+        return ResultUtils.success(deleteProductResponse);
     }
 }

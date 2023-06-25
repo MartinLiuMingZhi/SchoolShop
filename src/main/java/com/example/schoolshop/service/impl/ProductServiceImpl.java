@@ -10,6 +10,7 @@ import com.example.schoolshop.domain.User;
 import com.example.schoolshop.exception.BusinessException;
 import com.example.schoolshop.mappar.ProductMapper;
 import com.example.schoolshop.model.product.AddProductResponse;
+import com.example.schoolshop.model.product.DeleteProductResponse;
 import com.example.schoolshop.model.user.RegisterResponse;
 import com.example.schoolshop.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -69,4 +70,14 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>imple
         addProductResponse.setId(product.getId());
         return addProductResponse;
     }
+
+    @Override
+    public DeleteProductResponse deleteProduct(List<Integer> id) {
+        this.baseMapper.deleteBatchIds(id);
+        DeleteProductResponse deleteProductResponse = new DeleteProductResponse();
+        deleteProductResponse.setMsg(id.size()+"条数据删除成功");
+        return deleteProductResponse;
+    }
+
+
 }
