@@ -8,6 +8,7 @@ import com.example.schoolshop.exception.BusinessException;
 import com.example.schoolshop.model.product.AddProductRequest;
 import com.example.schoolshop.model.product.AddProductResponse;
 import com.example.schoolshop.model.product.DeleteProductResponse;
+import com.example.schoolshop.model.product.UpdateProductRequest;
 import com.example.schoolshop.service.ProductService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +65,54 @@ public class ProductController {
     public BaseResponse<DeleteProductResponse> delete(@PathVariable List<Integer> id){
         DeleteProductResponse deleteProductResponse = productService.deleteProduct(id);
         return ResultUtils.success(deleteProductResponse);
+    }
+
+    /**
+     * 批量查询
+     * @param id
+     * @return
+     */
+    @GetMapping("/query/{id}")
+    public BaseResponse<List<Product>> query(@PathVariable List<Integer> id){
+        List<Product> product = productService.query(id);
+        return  ResultUtils.success(product);
+    }
+
+    /**
+     * 商品名称查询
+     * @param name
+     * @return
+     */
+    @GetMapping("/query/name")
+    public BaseResponse<List<Product>> query(String name){
+        List<Product> product = productService.queryName(name);
+        return ResultUtils.success(product);
+    }
+
+    /**
+     * 模糊查询
+     * @param name
+     * @return
+     */
+    @GetMapping("/query/fuzzy")
+    public BaseResponse<List<Product>> fuzzy_query(String name){
+        List<Product> products = productService.fuzzy_query(name);
+        return ResultUtils.success(products);
+    }
+    /**
+     * 更新商品
+     * @param updateProductRequest
+     * @return
+     */
+    @PutMapping("/update")
+    public BaseResponse<Boolean> update(@RequestBody UpdateProductRequest updateProductRequest){
+        String name = updateProductRequest.getName();
+        String description = updateProductRequest.getDescription();
+        Double price = updateProductRequest.getPrice();
+        String image = updateProductRequest.getImage();
+        String type = updateProductRequest.getType();
+        Long stock = updateProductRequest.getStock();
+        Boolean judge = productService.update(name,description,price,image,type,stock);
+        return ResultUtils.success(judge);
     }
 }

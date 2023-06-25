@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.schoolshop.domain.Product;
 import com.example.schoolshop.model.product.AddProductResponse;
 import com.example.schoolshop.model.product.DeleteProductResponse;
+import io.swagger.models.auth.In;
 
 import java.util.Date;
 import java.util.List;
@@ -48,5 +49,11 @@ public interface ProductService extends IService<Product> {
 
     DeleteProductResponse deleteProduct(List<Integer> id);
 
+    List<Product> query(List<Integer> id);
 
+    Boolean update(String name, String description, Double price, String image, String type, Long stock);
+
+    List<Product> queryName(String name);
+
+    List<Product> fuzzy_query(String name);
 }

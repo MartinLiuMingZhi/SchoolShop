@@ -1,6 +1,7 @@
 package com.example.schoolshop.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +14,7 @@ import com.example.schoolshop.model.product.AddProductResponse;
 import com.example.schoolshop.model.product.DeleteProductResponse;
 import com.example.schoolshop.model.user.RegisterResponse;
 import com.example.schoolshop.service.ProductService;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +79,41 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>imple
         DeleteProductResponse deleteProductResponse = new DeleteProductResponse();
         deleteProductResponse.setMsg(id.size()+"条数据删除成功");
         return deleteProductResponse;
+    }
+
+    @Override
+    public List<Product> query(List<Integer> id) {
+        List<Product> product = this.baseMapper.selectBatchIds(id);
+        return product;
+    }
+
+    @Override
+    public Boolean update(String name, String description, Double price, String image, String type, Long stock) {
+        Product product = new Product();
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setImage(image);
+        product.setType(type);
+        product.setStock(stock);
+        this.baseMapper.updateById(product);
+        return null;
+    }
+
+    @Override
+    public List<Product> queryName(String name) {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name",name);
+        List<Product> products = this.baseMapper.selectList(queryWrapper);
+        return products;
+    }
+
+    @Override
+    public List<Product> fuzzy_query(String name) {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name",name);
+        List<Product> products = this.baseMapper.selectList(queryWrapper);
+        return products;
     }
 
 
