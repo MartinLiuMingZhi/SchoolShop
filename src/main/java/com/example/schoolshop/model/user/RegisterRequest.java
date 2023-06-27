@@ -37,10 +37,10 @@ public class RegisterRequest {
      */
     private String phone;
 
-    /**
-     * 出生日期
-     */
-    private Date birthday;
+//    /**
+//     * 出生日期
+//     */
+//    private Date birthday;
 
 //    /**
 //     * 状态码

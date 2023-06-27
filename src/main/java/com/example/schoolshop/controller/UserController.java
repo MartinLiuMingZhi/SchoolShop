@@ -15,17 +15,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 
-
+@CrossOrigin
 @Slf4j  //log的注解
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Resource
     private UserService userService;
-    /*
-    登录
+
+
+    /**
+     * 登录
+     * @param loginRequest
+     * @return
      */
     @PostMapping("/login")
     public BaseResponse<LoginResponse> userLogin(@RequestBody LoginRequest loginRequest) {
@@ -43,8 +46,10 @@ public class UserController {
         return ResultUtils.success(result);
     }
 
-    /*
-    注册
+    /**
+     * 注册
+     * @param registerRequest
+     * @return
      */
     @PostMapping("/register")
     public BaseResponse<RegisterResponse> userRegister(@RequestBody RegisterRequest registerRequest) {
@@ -58,18 +63,20 @@ public class UserController {
         String sex      = registerRequest.getSex();
         String email    = registerRequest.getEmail();
         String phone    = registerRequest.getPhone();
-        Date   birthday = registerRequest.getBirthday();
+//        Date   birthday = registerRequest.getBirthday();
 //        Integer state   = registerRequest.getState();
         if (StringUtils.isAllBlank(username, password,email)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
-        RegisterResponse userRegisterResponse = userService.userRegister(username,password,name,sex,email,phone,birthday);
+        RegisterResponse userRegisterResponse = userService.userRegister(username,password,name,sex,email,phone);
         return ResultUtils.success(userRegisterResponse);
     }
 
-    /*
-    获取账号信息
+    /**
+     * 获取账号信息
+     * @param id
+     * @return
      */
     @GetMapping("/getUser")
     public BaseResponse<User> getLoginUser(Long id){

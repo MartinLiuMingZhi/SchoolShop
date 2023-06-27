@@ -1,4 +1,4 @@
-package com.example.schoolshop.mappar;
+package com.example.schoolshop.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.schoolshop.domain.Product;

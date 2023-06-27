@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @Slf4j  //log的注解
 @RestController
 @RequestMapping("/product")
@@ -25,6 +26,14 @@ public class ProductController {
     private ProductService productService;
 
     /**
+     * 获取商品总数
+     * @return
+     */
+    public BaseResponse<Long> count(){
+        Long l = productService.count();
+        return ResultUtils.success(l);
+    }
+    /**
      * 分页
      * @param page
      * @param pageSize
@@ -33,6 +42,7 @@ public class ProductController {
     @GetMapping("/page")
     public BaseResponse<List<Product>> page(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize){
         List<Product> list = productService.page(page, pageSize);
+        System.out.println(list.toString());
         return ResultUtils.success(list);
     }
 
@@ -84,7 +94,7 @@ public class ProductController {
      * @return
      */
     @GetMapping("/query/name")
-    public BaseResponse<List<Product>> query(String name){
+    public BaseResponse<List<Product>> queryName(String name){
         List<Product> product = productService.queryName(name);
         return ResultUtils.success(product);
     }

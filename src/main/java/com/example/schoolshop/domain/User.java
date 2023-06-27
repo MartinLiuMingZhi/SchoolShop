@@ -55,11 +55,11 @@ public class User implements Serializable {
     @TableField(value = "phone")
     private String phone;
 
-    /**
-     * 出生日期
-     */
-    @TableField(value = "birthday")
-    private Date birthday;
+//    /**
+//     * 出生日期
+//     */
+//    @TableField(value = "birthday")
+//    private Date birthday;
 
     /**
      * 状态码

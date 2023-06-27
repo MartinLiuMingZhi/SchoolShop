@@ -1,24 +1,20 @@
 package com.example.schoolshop.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.schoolshop.common.ErrorCode;
 import com.example.schoolshop.domain.Product;
-import com.example.schoolshop.domain.User;
 import com.example.schoolshop.exception.BusinessException;
-import com.example.schoolshop.mappar.ProductMapper;
+import com.example.schoolshop.mapper.ProductMapper;
 import com.example.schoolshop.model.product.AddProductResponse;
 import com.example.schoolshop.model.product.DeleteProductResponse;
-import com.example.schoolshop.model.user.RegisterResponse;
 import com.example.schoolshop.service.ProductService;
-import io.swagger.models.auth.In;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -43,9 +39,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>imple
 
     @Override
     public List<Product> page(Integer start, Integer pageSize) {
-        IPage page = new Page(start,pageSize);
-
-        return page.getRecords();
+        IPage<Product> page = new Page<>(start,pageSize);
+        IPage<Product> resultPage = this.baseMapper.selectPage(page, null); // 执行数据库查询操作
+        return resultPage.getRecords();
     }
 
     @Override

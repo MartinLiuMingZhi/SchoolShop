@@ -1,27 +1,16 @@
 package com.example.schoolshop.service.impl;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
-import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.schoolshop.common.ErrorCode;
-import com.example.schoolshop.constant.UserConstant;
 import com.example.schoolshop.domain.User;
 import com.example.schoolshop.exception.BusinessException;
-import com.example.schoolshop.mappar.UserMapper;
+import com.example.schoolshop.mapper.UserMapper;
 import com.example.schoolshop.model.user.LoginResponse;
 import com.example.schoolshop.model.user.RegisterResponse;
 import com.example.schoolshop.service.UserService;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.Date;
 
 
 /**
@@ -68,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone, Date birthay) {
+    public RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
         if (this.baseMapper.selectOne(queryWrapper) !=  null){
@@ -81,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setSex(sex);
         user.setEmail(email);
         user.setPhone(phone);
-        user.setBirthday(birthay);
+//        user.setBirthday(birthay);
         user.setState(0);
         boolean saveResult = this.save(user);
         if (!saveResult) {

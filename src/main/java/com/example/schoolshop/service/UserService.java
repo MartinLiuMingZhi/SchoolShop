@@ -25,10 +25,9 @@ public interface UserService extends IService<User> {
      * @param sex      性别
      * @param email    邮箱
      * @param phone    电话号码
-     * @param birthay  出生日期
      * @return 用户id
      */
-    RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone, Date birthay);
+    RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone);
 
     LoginResponse userLogin(String username, String password);
 
