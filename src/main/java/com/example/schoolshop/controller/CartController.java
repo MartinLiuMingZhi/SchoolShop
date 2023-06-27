@@ -36,55 +36,55 @@ public class CartController {
      * @return
      */
     @PostMapping("/add")
-    public BaseResponse<AddResponse> carAdd(AddRequest addRequest){
-        AddResponse response = cartService.cartAdd(addRequest.getUser_id(), addRequest.getProduct_id(), addRequest.getNum());
+    public BaseResponse<AddResponse> carAdd(@RequestBody AddRequest addRequest){
+        AddResponse response = cartService.cartAdd(addRequest.getUsername(), addRequest.getProduct_id(), addRequest.getNum());
         return ResultUtils.success(response);
     }
 
     /**
      * 查询购物车
-     * @param id
+     * @param username
      * @return
      */
     @GetMapping("/query")
-    public BaseResponse<List<Cart>> query(Long id){
-        List<Cart> list = cartService.cartQuery(id);
+    public BaseResponse<List<Cart>> query(String username){
+        List<Cart> list = cartService.cartQuery(username);
         return ResultUtils.success(list);
     }
 
     /**
      * 查询购物车
-     * @param id
+     * @param username
      * @param page
      * @param pageSize
      * @return
      */
     @GetMapping("/page")
-    public BaseResponse<List<Cart>> page(Long id,@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize ){
-        List<Cart> carts = cartService.cartPage(id, page, pageSize);
+    public BaseResponse<List<Cart>> page(String username,@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize ){
+        List<Cart> carts = cartService.cartPage(username, page, pageSize);
         return ResultUtils.success(carts);
     }
 
     @PutMapping("/update")
-    public BaseResponse<Boolean> update(Long userId, Long productId, Long quantity){
-        Boolean judge = cartService.cartUpdate(userId, productId, quantity);
+    public BaseResponse<Boolean> update(String username, Long productId, Long quantity){
+        Boolean judge = cartService.cartUpdate(username, productId, quantity);
         return ResultUtils.success(judge);
     }
     /**
      * 删除购物车条目
-     * @param user_id
+     * @param username
      * @param product_id
      * @return
      */
     @DeleteMapping("/delete")
-    public BaseResponse<Boolean> delete(Long user_id,Long product_id){
-        Boolean judge = cartService.cartDelete(user_id,product_id);
+    public BaseResponse<Boolean> delete(String username,Long product_id){
+        Boolean judge = cartService.cartDelete(username,product_id);
         return ResultUtils.success(judge);
     }
 
     @DeleteMapping("/deleteAll")
-    public BaseResponse<Boolean> deleteAll(Long user_id){
-        Boolean judge = cartService.DeleteAll(user_id);
+    public BaseResponse<Boolean> deleteAll(String username){
+        Boolean judge = cartService.DeleteAll(username);
         return ResultUtils.success(judge);
     }
 }

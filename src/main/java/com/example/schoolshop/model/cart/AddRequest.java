@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AddRequest {
-    private Long user_id;
+    private String username;
     private Long product_id;
     private Long num;
 }

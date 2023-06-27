@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 购物车
@@ -19,32 +20,32 @@ public class Cart implements Serializable {
     /**
      * cart_id
      */
-    @TableId(value = "cart_id",type = IdType.AUTO)
-    private Long cart_id;
+    @TableId(value = "cartId",type = IdType.AUTO)
+    private Long cartId;
 
     /**
      * user_id
      */
-    @TableField(value = "user_id")
-    private Long user_id;
+    @TableField(value = "userId")
+    private Long userid;
 
     /**
      * product_id
      */
-    @TableField(value = "product_id")
-    private Long product_id;
+    @TableField(value = "productId")
+    private Long productId;
 
     /**
      * 商品名称
      */
-    @TableField(value = "product_name")
-    private String product_name;
+    @TableField(value = "productName")
+    private String productName;
 
     /**
      * 商品图片
      */
-    @TableField(value = "product_image")
-    private String product_image;
+    @TableField(value = "productImage")
+    private String productImage;
 
     /**
      * 商品数量
@@ -55,12 +56,21 @@ public class Cart implements Serializable {
     /**
      * 商品单价
      */
-    @TableField(value = "unit_price")
-    private Double unit_price;
+    @TableField(value = "unitPrice")
+    private Double unitPrice;
 
     /**
      * 商品总价
      */
-    @TableField(value = "total_price")
-    private Double total_price;
+    @TableField(value = "totalPrice")
+    private Double totalPrice;
+
+    @TableField(value = "createdTime")
+    private Date createdTime;
+
+    @TableField(value = "updatedTime")
+    private Date updatedTime;
+
+
+
 }

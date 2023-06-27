@@ -23,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,44 +40,50 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
     public Double sum() {
         List<Cart> carts = this.baseMapper.selectList(null);
         double sum = 0;
-        for (Cart cat:carts) {
-            sum+=cat.getTotal_price();
+        for (Cart cart:carts) {
+            sum+=cart.getTotalPrice();
         }
 
         return sum;
     }
 
     @Override
-    public AddResponse cartAdd(Long user_id, Long product_id,Long num) {
+    public AddResponse cartAdd(String username, Long product_id,Long num) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username",username);
+        User user = userService.getBaseMapper().selectOne(userQueryWrapper);
+
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", user_id);
-        queryWrapper.eq("product_id", product_id);
-        if (this.getOne(queryWrapper) != null) {
+        queryWrapper.eq("userId", user.getId());
+        queryWrapper.eq("productId", product_id);
+        if (this.baseMapper.selectOne(queryWrapper) != null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品已存在");
         }
 
         Cart cart = new Cart();
-        cart.setUser_id(user_id);
-        cart.setProduct_id(product_id);
+        cart.setUserid(user.getId());
+        cart.setProductId(product_id);
 
         // 查询其他表中的信息
         Product product = productService.getById(product_id);
-        User user = userService.getById(user_id);
+
         // 设置其他属性
         cart.setQuantity(num);
-        cart.setProduct_name(product.getName());
-        cart.setUnit_price(product.getPrice());
-        cart.setTotal_price(product.getPrice()*product.getStock());
-        cart.setProduct_image(product.getImage());
-        this.save(cart);
+        cart.setProductName(product.getName());
+        cart.setUnitPrice(product.getPrice());
+        cart.setTotalPrice(product.getPrice()*product.getStock());
+        cart.setProductImage(product.getImage());
+        boolean saveResult= this.save(cart);
 
-
+        if (!saveResult) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
+        }
 
         // 创建 AddResponse 对象，并将查询到的信息赋值
         AddResponse response = new AddResponse();
-        response.setCart_id(cart.getCart_id());
-        response.setUser_id(cart.getUser_id());
-        response.setProduct_id(cart.getProduct_id());
+        response.setCart_id(cart.getCartId());
+        response.setUser_id(cart.getUserid());
+        response.setProduct_id(cart.getProductId());
         response.setProduct_name(product.getName());
         response.setProduct_image(product.getImage());
         response.setUnit_price(product.getPrice());
@@ -88,51 +96,67 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
     }
 
     @Override
-    public List<Cart> cartQuery(Long user_id) {
+    public List<Cart> cartQuery(String username) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username",username);
+        User user = userService.getBaseMapper().selectOne(userQueryWrapper);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",user_id);
+        queryWrapper.eq("userId",user.getId());
+
         List<Cart> list = this.baseMapper.selectList(queryWrapper);
+        System.out.println(list.toString());
         return list;
     }
 
     @Override
-    public List<Cart> cartPage(Long user_id, Integer start, Integer pageSize) {
+    public List<Cart> cartPage(String username, Integer start, Integer pageSize) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username",username);
+        User user = userService.getBaseMapper().selectOne(userQueryWrapper);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",user_id);
+        queryWrapper.eq("userId",user.getId());
         IPage<Cart> page = new Page<>(start,pageSize);
         IPage<Cart> resultPage = this.baseMapper.selectPage(page, queryWrapper); // 执行数据库查询操作
         return resultPage.getRecords();
     }
 
     @Override
-    public Boolean cartUpdate(Long userId, Long productId, Long quantity) {
+    public Boolean cartUpdate(String username, Long productId, Long quantity) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username",username);
+        User user = userService.getBaseMapper().selectOne(userQueryWrapper);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
-        queryWrapper.eq("product_id", productId);
+        queryWrapper.eq("userid", user.getId());
+        queryWrapper.eq("productId", productId);
         Cart cart = this.baseMapper.selectOne(queryWrapper);
 
         if (cart == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"购物车条目不存在");
         }
 
-        BigDecimal unitPrice = new BigDecimal(cart.getUnit_price());
-        BigDecimal total = unitPrice.multiply(new BigDecimal(quantity));
+        Double unitPrice = cart.getUnitPrice();
+        Double total = cart.getTotalPrice()*quantity;
+        Date updateTime = new Date();
 
         UpdateWrapper<Cart> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("user_id", userId);
-        updateWrapper.eq("product_id", productId);
+        updateWrapper.eq("userId", user.getId());
+        updateWrapper.eq("productId", productId);
         updateWrapper.set("quantity", quantity);
-        updateWrapper.set("total_price", total);
+        updateWrapper.set("totalPrice", total);
+        updateWrapper.set("updatedTime",updateTime);
 
         int rows = this.baseMapper.update(null, updateWrapper);
         return rows > 0;
     }
 
     @Override
-    public Boolean cartDelete(Long user_id, Long product_id) {
+    public Boolean cartDelete(String username, Long product_id) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username",username);
+        User user = userService.getBaseMapper().selectOne(userQueryWrapper);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",user_id);
-        queryWrapper.eq("product_id",product_id);
+        queryWrapper.eq("userId",user.getId());
+        queryWrapper.eq("productId",product_id);
         Cart cart = this.baseMapper.selectOne(queryWrapper);
         if (cart == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"购物车条目不存在");
@@ -142,9 +166,12 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
     }
 
     @Override
-    public Boolean DeleteAll(Long user_id) {
+    public Boolean DeleteAll(String username) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username",username);
+        User user = userService.getBaseMapper().selectOne(userQueryWrapper);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",user_id);
+        queryWrapper.eq("userId",user.getId());
         Cart cart = this.baseMapper.selectOne(queryWrapper);
         if (cart == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"购物车不存在");
