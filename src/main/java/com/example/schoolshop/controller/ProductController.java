@@ -29,6 +29,7 @@ public class ProductController {
      * 获取商品总数
      * @return
      */
+    @GetMapping("/count")
     public BaseResponse<Long> count(){
         Long l = productService.count();
         return ResultUtils.success(l);

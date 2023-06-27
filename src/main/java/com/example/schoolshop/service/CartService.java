@@ -19,4 +19,14 @@ public interface CartService extends IService<Cart> {
     Double sum();
 
     AddResponse cartAdd(Long user_id,Long product_id,Long num);
+
+    List<Cart> cartQuery(Long user_id);
+
+    List<Cart> cartPage(Long user_id,Integer start,Integer pageSize);
+
+    Boolean cartUpdate(Long user_id,Long product_id,Long quantity);
+
+    Boolean cartDelete(Long user_id,Long product_id);
+
+    Boolean DeleteAll(Long user_id);
 }
