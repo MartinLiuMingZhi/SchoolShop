@@ -27,10 +27,10 @@ public interface UserService extends IService<User> {
      * @param phone    电话号码
      * @return 用户id
      */
-    RegisterResponse userRegister(String username, String password, String name, String sex, String email, String phone);
+    User userRegister(String username, String password,String checkPassword, String name, String sex, String email, String phone,String avatar);
 
-    LoginResponse userLogin(String username, String password);
+    User userLogin(String username, String password);
 
-    User getLoginUser(Long id);
+    User getLoginUser();
 
 }

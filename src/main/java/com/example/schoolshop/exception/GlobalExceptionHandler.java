@@ -1,5 +1,6 @@
 package com.example.schoolshop.exception;
 
+import cn.dev33.satoken.util.SaResult;
 import com.example.schoolshop.common.BaseResponse;
 import com.example.schoolshop.common.ErrorCode;
 import com.example.schoolshop.common.ResultUtils;
@@ -21,5 +22,16 @@ public class GlobalExceptionHandler {
     public BaseResponse<?> runtimeExceptionHandler(RuntimeException e) {
         log.error("RuntimeException", e);
         return ResultUtils.error(ErrorCode.SYSTEM_ERROR, "系统错误");
+    }
+
+    /**
+     * 全局异常拦截，鉴权失败不会报错，会返回给前端报错原因
+     * @param e
+     * @return
+     */
+    @ExceptionHandler
+    public SaResult handlerException(Exception e) {
+        e.printStackTrace();
+        return SaResult.error(e.getMessage());
     }
 }

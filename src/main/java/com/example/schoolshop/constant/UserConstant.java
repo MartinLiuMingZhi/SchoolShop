@@ -15,4 +15,8 @@ public interface UserConstant {
     int USER_PASSWORD_MIN_LENGTH = 8;
 
 
+    /**
+     * 用户登录
+     */
+    String USER_LOGIN_STATE = "user_login";
 }

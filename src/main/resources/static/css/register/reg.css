@@ -1,0 +1,52 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#head{
+    margin:50px auto;
+    font-size: 23px;
+    text-align: center;
+}
+
+#registerForm{
+    width: 600px;
+    margin: 0 auto;
+}
+
+#registerSubmit{
+    width: 100px;
+    position: relative;
+    left: 500px;
+}
+
+.code
+{
+    font-family:Arial;
+    font-style:italic;
+    color:blue;
+    font-size:20px;
+    border:0;
+    padding:2px 3px;
+    letter-spacing:3px;
+    font-weight:bolder;
+    float:left;
+    cursor:pointer;
+    width:150px;
+    height:40px;
+    line-height:40px;
+    text-align:center;
+    vertical-align:middle;
+    background-color:#D8B7E3;
+}
+span {
+    text-decoration:none;
+    font-size:12px;
+    color:#288bc4;
+    padding-left:10px;
+}
+
+span:hover {
+    text-decoration:underline;
+    cursor:pointer;
+}

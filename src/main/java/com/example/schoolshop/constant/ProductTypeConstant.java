@@ -7,7 +7,7 @@ import java.util.List;
  * 产品类型常理
  */
 public interface ProductTypeConstant {
-    String FOOD = "食物";
+    String FOOD = "食品";
     String STATIONERY = "文具用品";
     String CLOTHING = "服装";
     String ELECTRONICS = "电子产品";

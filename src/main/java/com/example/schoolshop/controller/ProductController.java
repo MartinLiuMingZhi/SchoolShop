@@ -1,5 +1,8 @@
 package com.example.schoolshop.controller;
 
+import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.schoolshop.common.BaseResponse;
 import com.example.schoolshop.common.ErrorCode;
 import com.example.schoolshop.common.ResultUtils;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@CrossOrigin
 @Slf4j  //log的注解
 @RestController
 @RequestMapping("/product")
@@ -41,8 +45,10 @@ public class ProductController {
      * @return
      */
     @GetMapping("/page")
-    public BaseResponse<List<Product>> page(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize){
-        List<Product> list = productService.page(page, pageSize);
+    public BaseResponse<IPage> page(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize){
+//        List<Product> list = productService.page(page, pageSize);
+//        System.out.println(list.toString());
+        IPage<Product> list = productService.page(page,pageSize);
         System.out.println(list.toString());
         return ResultUtils.success(list);
     }
@@ -117,13 +123,35 @@ public class ProductController {
      */
     @PutMapping("/update")
     public BaseResponse<Boolean> update(@RequestBody UpdateProductRequest updateProductRequest){
+        Long id = updateProductRequest.getId();
         String name = updateProductRequest.getName();
         String description = updateProductRequest.getDescription();
         Double price = updateProductRequest.getPrice();
         String image = updateProductRequest.getImage();
         String type = updateProductRequest.getType();
         Long stock = updateProductRequest.getStock();
-        Boolean judge = productService.update(name,description,price,image,type,stock);
+        Boolean judge = productService.update(id,name,description,price,image,type,stock);
         return ResultUtils.success(judge);
+    }
+
+    /**
+     * 根据id删除商品
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/deleteById")
+    public BaseResponse<Boolean> deleteById(Long id){
+        Boolean judge = productService.deleteProduct(id);
+        return  ResultUtils.success(judge);
+    }
+
+    /**
+     * 查询所有商品
+     * @return
+     */
+    @GetMapping("/queryAll")
+    public BaseResponse<List<Product>> queryAll(){
+        List<Product> products = productService.queryAll();
+        return ResultUtils.success(products);
     }
 }

@@ -18,6 +18,10 @@ public class RegisterRequest {
     private String password;
 
     /**
+     * 确认密码
+     */
+    private String checkPassword;
+    /**
      * 姓名
      */
     private String name;
@@ -46,5 +50,10 @@ public class RegisterRequest {
 //     * 状态码
 //     */
 //    private Integer state;
+
+    /**
+     * 头像
+     */
+    private String avatar;
 
 }

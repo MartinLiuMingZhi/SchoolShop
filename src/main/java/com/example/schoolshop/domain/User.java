@@ -68,4 +68,9 @@ public class User implements Serializable {
     private Integer state;
 
 
+    /**
+     * 头像
+     */
+    @TableField(value = "avatar")
+    private String avatar;
 }

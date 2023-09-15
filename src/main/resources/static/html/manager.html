@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js" type='text/javascript'></script>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../lib-master/theme-chalk/index.css">
+    <script src="../lib-master/index.js" charset="utf-8" type='text/javascript'></script>
+    <link href="../css/manager/manage.css" rel="stylesheet">
+    <script src="../js/jquery.js" type='text/javascript'></script>
+</head>
+<body>
+    <div id="head">
+        管理员界面
+        <button type="button" class="btn btn-success" id="back" >退出</button>
+        <button type="button" class="btn btn-primary" id="addData" >添加数据</button>
+    </div>
+    <div id="body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">商品id</th>
+                    <th scope="col">商品名</th>
+                    <th scope="col">商品价格</th>
+                    <th scope="col">商品数量</th>
+                    <th scope="col">修改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in array">
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.stock}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" @click="changeList(index)">修改数据</button>
+                        <button type="button" class="btn btn-warning" @click="deleteInf(index)">删除数据</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="changeList" style="display: none">
+            <span class="point" @click="hideChangelist()" id="back">返回</span>
+            <div>
+                商品名称:<input v-model="option.name" class="form-control"></input>
+            </div>
+            商品介绍:
+            <div>
+                <textarea v-model="option.description" class="description form-control"></textarea>
+            </div>
+            <div>
+                商品类型:<input v-model="option.type" class="form-control"></input>
+            </div>
+            <div>
+                商品价格:<input v-model="option.price" class="form-control"></input>
+            </div>
+            <div>
+                商品库存:<input v-model="option.stock" class="form-control"></input>
+            </div>
+            <div>
+                商品图片:<input v-model="option.image" class="form-control"></input>
+            </div>
+            <div>
+                <button type="button" class="btn btn-success change" @click="submit()">提交修改</button>
+            </div>
+        </div>
+
+        <div id="addList" style="display: none">
+            <span class="point" @click="hideAddlist()" id="addBack">返回</span>
+            <div>
+                商品名称:<input v-model="name" class="form-control"></input>
+            </div>
+            商品介绍:
+            <div>
+                <textarea v-model="description" class="description form-control"></textarea>
+            </div>
+            <div>
+                商品类型:<input v-model="type" class="form-control"></input>
+            </div>
+            <div>
+                商品价格:<input v-model="price" class="form-control"></input>
+            </div>
+            <div>
+                商品库存:<input v-model="stock" class="form-control"></input>
+            </div>
+            <div>
+                商品图片:<input v-model="image" class="form-control"></input>
+            </div>
+            <div>
+                <button type="button" class="btn btn-success change" @click="addPro()">提交添加</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/manager/manage.js"></script>
+</html>

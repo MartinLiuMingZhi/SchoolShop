@@ -1,0 +1,219 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#head{
+    /*padding-left: 100px;*/
+    /*padding-top: 20px;*/
+    font-size: 22px;
+    /*float: left;*/
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    left: 50px;
+}
+
+#head2{
+    /*padding-left: 100px;*/
+    /*padding-top: 20px;*/
+    font-size: 22px;
+    /*float: left;*/
+    position: absolute;
+    top: 20px;
+    left: 50px;
+}
+
+#outLogin{
+    margin: 15px;
+    font-size: 16px;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 22%;
+
+}
+
+#login{
+    background: #f3f3f3;
+    position: absolute;
+    left:100px;
+    top: 100px;
+    width: 400px;
+    padding: 30px;
+    border-radius: 4px;
+}
+
+#loginHead{
+    position: relative;
+    font-size: 22px;
+    left: 120px;
+}
+
+.inputHei{
+    height: 22px;
+}
+
+#loginSubmit{
+    width: 100px;
+}
+
+.code
+{
+    font-family:Arial;
+    font-style:italic;
+    color:blue;
+    font-size:22px;
+    border:0;
+    padding:2px 3px;
+    letter-spacing:3px;
+    font-weight:bolder;
+    float:left;
+    cursor:pointer;
+    width:100px;
+    height:40px;
+    line-height:40px;
+    text-align:center;
+    vertical-align:middle;
+    background-color:#D8B7E3;
+}
+
+#checkCode{
+    text-decoration:none;
+    font-size:18px;
+    color:#288bc4;
+    padding-left:10px;
+}
+
+#checkCode:hover {
+    /*text-decoration:underline;*/
+    cursor:pointer;
+}
+
+#loginBack{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#loginBack:hover{
+    cursor:pointer;
+    color: #3dd066;
+}
+
+.point:hover{
+    cursor:pointer;
+}
+
+#body{
+    margin: 70px auto;
+    /*background: yellow;*/
+    width: 1100px;
+    height: 600px;
+    position: relative;
+    top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.shoppingBox{
+    width: 200px;
+    height: 250px;
+    background: #f3f3f3;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+
+#page{
+    margin: 0 auto;
+    position: absolute;
+    bottom: 15px;
+    left: 42%;
+}
+
+.image{
+    width: 70%;
+    height: 50%;
+    margin: 10px auto;
+    position: relative;
+    left: 30px;
+    background: #f3f3f3;
+}
+
+.introduce{
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    /*background: #0dcaf0;*/
+    width: 100%;
+    height: 18%;
+    /*text-overflow: -o-ellipsis-lastline;*/
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.price{
+    /*position: relative;*/
+    /*top: 15px;*/
+    color: #3dd066;
+}
+.stock{
+    /*position: relative;*/
+    /*top: 15px;*/
+    color: #3dd066;
+}
+
+.active{
+    background-color: #0dcaf0;
+}
+
+.btn-secondary{
+    position: relative;
+    left: 90px;
+}
+
+#shopBody{
+    margin: 40px auto;
+    background: #f3f3f3;
+    width: 1100px;
+    height: 630px;
+    position: relative;
+    top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
+
+#outShopBody{
+    position: absolute;
+    top:20px;
+    right: 20px;
+}
+
+#outShopBody:hover{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #3dd066;
+}
+
+.shopBox{
+    margin-top: 30px;
+    margin-left: 30px;
+    width: 30%;
+    height: 250px;
+}
+
+.img{
+    width: 70%;
+    margin: 0 auto;
+    height: 150px;
+}
+
+.green{
+    color: #3dd066;
+}

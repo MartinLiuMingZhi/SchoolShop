@@ -38,10 +38,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>imple
     }
 
     @Override
-    public List<Product> page(Integer start, Integer pageSize) {
+    public IPage<Product> page(Integer start, Integer pageSize) {
         IPage<Product> page = new Page<>(start,pageSize);
         IPage<Product> resultPage = this.baseMapper.selectPage(page, null); // 执行数据库查询操作
-        return resultPage.getRecords();
+        return resultPage;
     }
 
     @Override
@@ -84,16 +84,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>imple
     }
 
     @Override
-    public Boolean update(String name, String description, Double price, String image, String type, Long stock) {
+    public Boolean update(Long id,String name, String description, Double price, String image, String type, Long stock) {
         Product product = new Product();
+        product.setId(id);
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
         product.setImage(image);
         product.setType(type);
         product.setStock(stock);
-        this.baseMapper.updateById(product);
-        return null;
+        int rows = this.baseMapper.updateById(product);
+        return rows > 0;
     }
 
     @Override
@@ -108,6 +109,19 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>imple
     public List<Product> fuzzy_query(String name) {
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("name",name);
+        List<Product> products = this.baseMapper.selectList(queryWrapper);
+        return products;
+    }
+
+    @Override
+    public Boolean deleteProduct(Long id) {
+        int rows = this.baseMapper.deleteById(id);
+        return rows > 0;
+    }
+
+    @Override
+    public List<Product> queryAll() {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>(null);
         List<Product> products = this.baseMapper.selectList(queryWrapper);
         return products;
     }

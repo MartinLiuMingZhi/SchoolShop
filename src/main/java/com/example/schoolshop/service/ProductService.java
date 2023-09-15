@@ -1,5 +1,7 @@
 package com.example.schoolshop.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.schoolshop.domain.Product;
 import com.example.schoolshop.model.product.AddProductResponse;
@@ -20,7 +22,7 @@ public interface ProductService extends IService<Product> {
 
     long count();
 
-    List<Product> page(Integer start,Integer pageSize);
+    IPage<Product> page(Integer start, Integer pageSize);
 
     /**
      *
@@ -38,9 +40,13 @@ public interface ProductService extends IService<Product> {
 
     List<Product> query(List<Integer> id);
 
-    Boolean update(String name, String description, Double price, String image, String type, Long stock);
+    Boolean update(Long id,String name, String description, Double price, String image, String type, Long stock);
 
     List<Product> queryName(String name);
 
     List<Product> fuzzy_query(String name);
+
+    Boolean deleteProduct(Long id);
+
+    List<Product> queryAll();
 }

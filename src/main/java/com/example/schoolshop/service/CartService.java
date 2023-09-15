@@ -18,15 +18,17 @@ import java.util.List;
 public interface CartService extends IService<Cart> {
     Double sum();
 
-    AddResponse cartAdd(String username,Long product_id,Long num);
+    AddResponse cartAdd(Long product_id,Long num);
 
-    List<Cart> cartQuery(String username);
+    List<Cart> cartQuery();
 
-    List<Cart> cartPage(String username,Integer start,Integer pageSize);
+    List<Cart> cartPage(Integer start,Integer pageSize);
 
-    Boolean cartUpdate(String username,Long product_id,Long quantity);
+    Boolean cartUpdate(Long product_id,Long quantity);
 
-    Boolean cartDelete(String username,Long product_id);
+    Boolean cartDelete(Long product_id);
 
-    Boolean DeleteAll(String username);
+    Boolean DeleteAll();
+
+    List<Cart> QueryAll();
 }

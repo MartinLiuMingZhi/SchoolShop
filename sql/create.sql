@@ -41,8 +41,16 @@ create table if not exists cart
     unit_price       decimal(10,2)           not null comment '商品单价',
     total_price      decimal(10,2)           not null comment '商品总价',
     created_time     timestamp default current_timestamp comment '创建时间',
-    updated_time     timestamp default current_timestamp on update current_timestamp comment '更新时间',
+    updated_time     timestamp comment '更新时间',
     primary key (cart_id),
     index (user_id),
     index (product_id)
 );
+-- 管理员表
+create table if not exists manager
+(
+    id              bigint           auto_increment comment '管理员id' primary key,
+    username        varchar(255)     not null comment '用户名',
+    password        varchar(255)     not null comment '密码',
+    state       bigint           not null comment '状态码'
+)comment '管理员' collate = utf8mb4_unicode_ci;
